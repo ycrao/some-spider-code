@@ -54,7 +54,7 @@ def fetchNewestJsonpData(tag='0'):
 if __name__ == "__main__":
     data = fetchNewestJsonpData()
     result_items = data['result']['data']['feed']['list']
-    title = colored("新浪全球实时财经新闻(Sina Global Finance News)", 'red', attrs=['blink', 'bold', 'reverse'])
+    title = colored(" 新浪全球实时财经新闻(Sina Global Finance News) ", 'red', attrs=['blink', 'bold', 'reverse'])
     print(title)
     print("")
     for item in result_items:

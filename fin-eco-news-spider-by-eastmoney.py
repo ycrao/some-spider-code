@@ -44,7 +44,7 @@ def fetchNewestData():
 if __name__ == "__main__":
     data = fetchNewestData()
     result_items = data['LivesList']
-    header = colored("东方财富全球财经快讯", 'red', attrs=['blink', 'bold', 'reverse'])
+    header = colored(" 东方财富全球财经快讯 ", 'red', attrs=['blink', 'bold', 'reverse'])
     print(header)
     print("")
     for item in result_items:
