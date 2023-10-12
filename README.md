@@ -1,4 +1,5 @@
-# some-spider-code
+some-spider-code
+----------------
 
 ### fin-eco-news-spider-by-sina
 
@@ -10,4 +11,10 @@
 
 >   [fin-eco-news-spider-by-eastmoney.py](./fin-eco-news-spider-by-eastmoney.py)：东方财富全球财经快讯爬虫。
 
-![sina-spider](./assets/eastmoney.png)
+![eastmoney-spider](./assets/eastmoney.png)
+
+### fin-eco-news-spider-by-jrwei
+
+>   [fin-eco-news-spider-by-jrwei.py](./fin-eco-news-spider-by-jrwei.py)：金融圈财经快讯爬虫。
+
+![jrwei-spider](./assets/jrwei.png)
