@@ -5,7 +5,7 @@ from termcolor import colored, cprint
 import textwrap
 
 
-def fetchNewestJsonpData():
+def fetchNewestJsonpData(tag='0'):
     """
     from https://finance.sina.com.cn/7x24/?tag=0
     :return: json_data dict
@@ -34,7 +34,8 @@ def fetchNewestJsonpData():
         'page': '1',
         'page_size': '20',
         'zhibo_id': '152',
-        'tag_id': '0',
+        # tag_id 0 为 全部，如果只关心特定标签，如`国际`，可以设置为 `102`
+        'tag_id': tag,
         'dire': 'f',
         'dpc': '1',
         'pagesize': '20',
@@ -60,8 +61,6 @@ if __name__ == "__main__":
         sina_id = item['id']
         update_time = item['update_time']
         content = item['rich_text']
-        # make long content width wrap
-        # count Chinese content word in content
         # cprint(f"{sina_id}@{update_time}:", 'light_grey', attrs=['underline'])
         contents_arr = textwrap.wrap(content, width=25)
         for con in contents_arr:
