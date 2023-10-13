@@ -1,6 +1,16 @@
 some-spider-code
 ----------------
 
+### usage
+
+```bash
+python -m venv venv
+pip install -r requirements.txt
+# then run code
+python fin-eco-news-spider-by-sina.py
+# ...
+```
+
 ### fin-eco-news-spider-by-sina
 
 >   [fin-eco-news-spider-by-sina.py](./fin-eco-news-spider-by-sina.py)：新浪全球实时财经新闻爬虫。
