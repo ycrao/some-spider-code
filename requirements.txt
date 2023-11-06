@@ -2,3 +2,4 @@ requests~=2.31.0
 demjson~=2.2.4
 setuptools==57.5.0
 termcolor~=2.3.0
+web.py~=0.62
