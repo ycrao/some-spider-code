@@ -6,6 +6,7 @@ some-spider-code
 ```bash
 # runtime: python >= 3.8
 python -m venv venv
+source venv/bin/activate
 pip install -r requirements.txt
 # then run code
 python fin-eco-news-spider-by-sina.py
@@ -29,3 +30,14 @@ python fin-eco-news-spider-by-sina.py
 >   [fin-eco-news-spider-by-jrwei.py](./fin-eco-news-spider-by-jrwei.py)：金融圈财经快讯爬虫。
 
 ![jrwei-spider](./assets/jrwei.png)
+
+### fund-value
+
+>   [fund-value.py](./fund-value.py)：基金净值爬虫。
+
+```bash
+# 8888 as port
+python fund-value.py 8888
+```
+
+Open `http://127.0.0.1:8888/012414` in browser. You can change `012414` (fund code) to another. See all codes in [data/fund.csv](./data/fund.csv) file.
