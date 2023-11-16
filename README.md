@@ -60,3 +60,14 @@ Response example:
     }
 }
 ```
+
+### stock-price
+
+>   [stock-price.py](./fund-value.py)：股票行情爬虫。
+
+symbol rule:
+
+```
+sh600519
+sz300750
+```
