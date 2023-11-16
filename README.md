@@ -41,3 +41,22 @@ python fund-value.py 8888
 ```
 
 Open `http://127.0.0.1:8888/012414` in browser. You can change `012414` (fund code) to another. See all codes in [data/fund.csv](./data/fund.csv) file.
+
+Response example:
+
+```json
+{
+    "code": 200,
+    "message": "ok",
+    "data": {
+        "fund_code": "002939",
+        "fund_name": "广发创新升级混合",
+        "net_value": "1.9049",
+        "net_value_date": "2023-11-15",
+        "estimated_net_value": "1.8643",
+        "estimated_growth_value": "-0.0406",
+        "estimated_growth_rate": "-2.13%",
+        "estimated_at": "2023-11-16 15:00:00"
+    }
+}
+```
