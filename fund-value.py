@@ -83,5 +83,3 @@ if __name__ == "__main__":
     )
     app = web.application(urls, globals())
     app.run()
-    # formatFund()
-    # fetchFund('001592')

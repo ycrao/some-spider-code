@@ -1,0 +1,97 @@
+{
+    "data": {
+        "market": {
+            "status_id": 5,
+            "region": "CN",
+            "status": "交易中",
+            "time_zone": "Asia/Shanghai",
+            "time_zone_desc": null,
+            "delay_tag": 0
+        },
+        "quote": {
+            "current_ext": null,
+            "symbol": "SZ300750",
+            "volume_ext": null,
+            "high52w": 270.7584,
+            "delayed": 0,
+            "type": 11,
+            "tick_size": 0.01,
+            "float_shares": 3894069163,
+            "limit_down": 144.92,
+            "no_profit": "N",
+            "high": 181.25,
+            "float_market_capital": 701010330723,
+            "timestamp_ext": 1700185821000,
+            "lot_size": 100,
+            "lock_set": null,
+            "weighted_voting_rights": "N",
+            "chg": -1.13,
+            "eps": 10.07,
+            "last_close": 181.15,
+            "profit_four": 44283045400,
+            "volume": 2680434,
+            "volume_ratio": 1.78,
+            "profit_forecast": 41527298133,
+            "turnover_rate": 0.07,
+            "low52w": 168.81,
+            "name": "宁德时代",
+            "exchange": "SZ",
+            "pe_forecast": 19.066,
+            "total_shares": 4398257697,
+            "status": 1,
+            "is_vie_desc": "否",
+            "security_status": null,
+            "code": "300750",
+            "goodwill_in_net_assets": 0.39712072915338836,
+            "avg_price": 180.38,
+            "percent": -0.62,
+            "weighted_voting_rights_desc": "无差异",
+            "amplitude": 0.93,
+            "current": 180.02,
+            "is_vie": "N",
+            "current_year_percent": -17.1,
+            "issue_date": 1528646400000,
+            "sub_type": "3",
+            "low": 179.57,
+            "is_registration_desc": "否",
+            "no_profit_desc": "已盈利",
+            "market_capital": 791774350614,
+            "dividend": 1.762,
+            "dividend_yield": 0.979,
+            "currency": "CNY",
+            "navps": 40.96,
+            "profit": 30729163500,
+            "timestamp": 1700185821000,
+            "pe_lyr": 25.766,
+            "amount": 483487669,
+            "pledge_ratio": 0.64,
+            "traded_amount_ext": null,
+            "is_registration": "N",
+            "pb": 4.395,
+            "limit_up": 217.38,
+            "pe_ttm": 17.88,
+            "time": 1700185821000,
+            "open": 179.85
+        },
+        "others": {
+            "pankou_ratio": 68.91,
+            "cyb_switch": true
+        },
+        "tags": [
+            {
+                "description": "深股通",
+                "value": 3
+            },
+            {
+                "description": "融",
+                "value": 6
+            },
+            {
+                "description": "空",
+                "value": 7
+            }
+        ]
+    },
+    "error_code": 0,
+    "error_description": ""
+}

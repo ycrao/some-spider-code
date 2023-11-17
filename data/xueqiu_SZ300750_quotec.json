@@ -1,0 +1,39 @@
+{
+    "data": [
+        {
+            "symbol": "SZ300750",
+            "current": 180.19,
+            "percent": -0.53,
+            "chg": -0.96,
+            "timestamp": 1700185992000,
+            "volume": 2890974,
+            "amount": 521436327,
+            "market_capital": 792522054422,
+            "float_market_capital": 701672322481,
+            "turnover_rate": 0.07,
+            "amplitude": 0.93,
+            "open": 179.85,
+            "last_close": 181.15,
+            "high": 181.25,
+            "low": 179.57,
+            "avg_price": 180.367,
+            "trade_volume": 900,
+            "side": 0,
+            "is_trade": true,
+            "level": 1,
+            "trade_session": null,
+            "trade_type": null,
+            "current_year_percent": -17.02,
+            "trade_unique_id": "2890974",
+            "type": 11,
+            "bid_appl_seq_num": null,
+            "offer_appl_seq_num": null,
+            "volume_ext": null,
+            "traded_amount_ext": null,
+            "trade_type_v2": null,
+            "yield_to_maturity": null
+        }
+    ],
+    "error_code": 0,
+    "error_description": null
+}

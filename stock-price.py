@@ -2,7 +2,7 @@
 import datetime
 
 import requests
-from helper import timestamp_str, write_csv
+from helper import timestamp_str, time_to_str
 import demjson
 import web
 from decimal import Decimal
@@ -13,6 +13,7 @@ from fake_useragent import UserAgent
 
 def format_sina_stock_data(data):
     return {
+        'source': 'sina',
         'name': data[0],
         'open': Decimal(data[1]),
         'close': Decimal(data[2]),
@@ -55,6 +56,7 @@ def _format_datetime_str(origin_datetime_str, origin_datetime_format='%Y%m%d%H%M
 
 def format_tencent_stock_data(data):
     return {
+        'source': 'tencent',
         'name': data[1],
         'open': Decimal(data[5]),
         'close': Decimal(data[4]),
@@ -89,6 +91,43 @@ def format_tencent_stock_data(data):
     }
 
 
+def format_xueqiu_stock_data(data, buy_sell_data):
+    return {
+        'source': 'xueqiu',
+        'name': data['data'][0]['symbol'],
+        'open': data['data'][0]['open'],
+        'close': data['data'][0]['last_close'],
+        'current': data['data'][0]['current'],
+        'high': data['data'][0]['high'],
+        'low': data['data'][0]['low'],
+        'sell': buy_sell_data['data']['sp1'],
+        'buy': buy_sell_data['data']['bp1'],
+        'volume': int(data['data'][0]['volume'] / 100),
+        'amount': int(Decimal(data['data'][0]['amount']) / 10000),
+        'buy1_volume': round(buy_sell_data['data']['bc1'] / 100),
+        'buy1': buy_sell_data['data']['bp1'],
+        'buy2_volume': round(buy_sell_data['data']['bc2'] / 100),
+        'buy2': buy_sell_data['data']['bp2'],
+        'buy3_volume': round(buy_sell_data['data']['bc3'] / 100),
+        'buy3': buy_sell_data['data']['bp3'],
+        'buy4_volume': round(buy_sell_data['data']['bc4'] / 100),
+        'buy4': buy_sell_data['data']['bp4'],
+        'buy5_volume': round(buy_sell_data['data']['bc5'] / 100),
+        'buy5': buy_sell_data['data']['bp5'],
+        'sell1_volume': round(buy_sell_data['data']['sc1'] / 100),
+        'sell1': buy_sell_data['data']['sp1'],
+        'sell2_volume': round(buy_sell_data['data']['sc2'] / 100),
+        'sell2': buy_sell_data['data']['sp2'],
+        'sell3_volume': round(buy_sell_data['data']['sc3'] / 100),
+        'sell3': buy_sell_data['data']['sp3'],
+        'sell4_volume': round(buy_sell_data['data']['sc4'] / 100),
+        'sell4': buy_sell_data['data']['sp4'],
+        'sell5_volume': round(buy_sell_data['data']['sc5'] / 100),
+        'sell5': buy_sell_data['data']['sp5'],
+        'date_time': time_to_str(int(buy_sell_data['data']['timestamp'] / 1000), '%Y-%m-%d %H:%M:%S'),
+    }
+
+
 def fetch_sina_stock(symbol):
     """
     symbol: 股票代码，例如：sz300750、sh600519
@@ -106,6 +145,7 @@ def fetch_sina_stock(symbol):
         'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8,en-US;q=0.7,en-GB;',
         'X-Requested-With': 'XMLHttpRequest',
     }
+    symbol = symbol.lower()
     url = f'https://hq.sinajs.cn/list={symbol}'
     resp = requests.get(url, headers=headers)
     text = resp.text
@@ -160,6 +200,7 @@ def fetch_tencent_stock(symbol):
         'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8,en-US;q=0.7,en-GB;',
         'X-Requested-With': 'XMLHttpRequest',
     }
+    symbol = symbol.lower()
     url = f'https://web.sqt.gtimg.cn/utf8/q={symbol}'
     resp = requests.get(url, headers=headers)
     text = resp.text
@@ -209,10 +250,71 @@ def fetch_tencent_stock(symbol):
     return format_tencent_stock_data(data_array)
 
 
+def fetch_xueqiu_stock(symbol):
+    """
+    symbol: 股票代码，例如：SZ300750、SH000519
+    这里我们以宁德时代 SZ300750 作为示例
+    see: https://xueqiu.com/S/SZ300750
+    雪球的接口较为繁琐，特别是五档盘口行情，需要额外请求（甚至可能限制爬虫）
+    - https://stock.xueqiu.com/v5/stock/quote.json?symbol=SZ300750&extend=detail&_=1700185320809
+    - https://stock.xueqiu.com/v5/stock/realtime/quotec.json?symbol=SZ300750&_=1700185320808
+    - https://stock.xueqiu.com/v5/stock/realtime/pankou.json?symbol=SZ300750&_=1700185320810
+    """
+    ua = UserAgent(browsers=['chrome', 'edge'])
+    headers = {
+        'Referer': 'https://xueqiu.com/S/' + symbol,
+        'User-Agent': ua.random,
+        'Accept': '*/*',
+        'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8,en-US;q=0.7,en-GB;',
+        'X-Requested-With': 'XMLHttpRequest',
+    }
+    symbol = symbol.upper()
+    ts = timestamp_str()
+    url1 = f'https://stock.xueqiu.com/v5/stock/realtime/quotec.json?symbol={symbol}&_={ts}'
+    url2 = f'https://stock.xueqiu.com/v5/stock/realtime/pankou.json?symbol={symbol}&_={ts}'
+    resp1 = requests.get(url1, headers=headers)
+    data = resp1.json()
+    resp2 = requests.get(url2, headers=headers)
+    bs_data = resp2.json()
+    return format_xueqiu_stock_data(data, bs_data)
+
+
+def get_query(query_str):
+    query = query_str.replace('?', '')
+    query = query.split('&')
+    query_dict = {}
+    for item in query:
+        item = item.split('=')
+        if len(item) >= 2:
+            query_dict[item[0]] = item[1]
+    return query_dict
+
+
+class StockPrice:
+    def GET(self, code):
+        web.header('content-type', 'application/json;charset=utf-8')
+        query_param = get_query(web.ctx.query)
+        if 'source' in query_param:
+            source = query_param['source']
+        else:
+            source = 'sina'
+        if source == 'tencent':
+            resp_data = fetch_tencent_stock(code)
+        elif source == 'xueqiu':
+            resp_data = fetch_xueqiu_stock(code)
+        else:
+            resp_data = fetch_sina_stock(code)
+        resp = {
+            'code': 200,
+            'message': 'ok',
+            'data': resp_data
+        }
+        return demjson.encode(resp, sort_keys=False)
+
+
 if __name__ == "__main__":
-    """
-    resp_data = fetch_sina_stock('sz300750')
-    print(demjson.encode(resp_data, sort_keys=False, indent_amount=4, escape_unicode=False))
-    """
-    resp_data = fetch_tencent_stock('sz300750')
-    print(demjson.encode(resp_data, sort_keys=False, indent_amount=4, escape_unicode=False))
+    urls = (
+        '/(sh[0-9]{6}|sz[0-9]{6})', 'StockPrice'
+    )
+    app = web.application(urls, globals())
+    app.run()
