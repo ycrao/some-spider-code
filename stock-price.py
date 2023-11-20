@@ -139,7 +139,7 @@ def fetch_sina_stock(symbol):
     """
     ua = UserAgent(browsers=['chrome', 'edge'])
     headers = {
-        'Referer': 'https://finace.sina.com.cn/',
+        'Referer': 'https://finance.sina.com.cn/',
         'User-Agent': ua.random,
         'Accept': '*/*',
         'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8,en-US;q=0.7,en-GB;',
@@ -252,7 +252,7 @@ def fetch_tencent_stock(symbol):
 
 def fetch_xueqiu_stock(symbol):
     """
-    symbol: 股票代码，例如：SZ300750、SH000519
+    symbol: 股票代码，例如：SZ300750、SH600519
     这里我们以宁德时代 SZ300750 作为示例
     see: https://xueqiu.com/S/SZ300750
     雪球的接口较为繁琐，特别是五档盘口行情，需要额外请求（甚至可能限制爬虫）
@@ -298,18 +298,26 @@ class StockPrice:
             source = query_param['source']
         else:
             source = 'sina'
-        if source == 'tencent':
-            resp_data = fetch_tencent_stock(code)
-        elif source == 'xueqiu':
-            resp_data = fetch_xueqiu_stock(code)
-        else:
-            resp_data = fetch_sina_stock(code)
-        resp = {
-            'code': 200,
-            'message': 'ok',
-            'data': resp_data
-        }
-        return demjson.encode(resp, sort_keys=False)
+        try:
+            if source == 'tencent':
+                resp_data = fetch_tencent_stock(code)
+            elif source == 'xueqiu':
+                resp_data = fetch_xueqiu_stock(code)
+            else:
+                resp_data = fetch_sina_stock(code)
+            resp = {
+                'code': 200,
+                'message': 'ok',
+                'data': resp_data
+            }
+            return demjson.encode(resp, sort_keys=False)
+        except IndexError:
+            resp = {
+                'code': 500,
+                'message': 'something error, wrong stock code?',
+                'data': None
+            }
+            return demjson.encode(resp, sort_keys=False)
 
 
 if __name__ == "__main__":
