@@ -63,7 +63,7 @@ Response example:
 
 ### stock-price
 
->   [stock-price.py](./fund-value.py)：股票行情爬虫。
+>   [stock-price.py](./stock-price.py)：股票行情爬虫。
 
 Symbol rule: `sh600519` （沪市） or `sz300750` （深市） .
 
@@ -121,6 +121,13 @@ Response example:
 
 
 ### trans-price
+
+>   [trans-price.py](./trans-price.py)：内外盘金银价格互转。当前上海金 `Au(T+D)/Ag(T+D)` 相对于国际金 `XAU/XAG` 均溢价不少，这个工具可以很方便快捷地进行转换。
+
+| 时间                 | 国内金银                                     | 国际金银                                    | 汇率       | 溢价                             |
+|--------------------|------------------------------------------|-----------------------------------------|----------|--------------------------------|
+| `2024-05-30 21:00` | `Au(T+D) 552.39 cny/g => 2367.84 usd/oz` | `XAUUSD 2341.22 usd/oz => 546.18 cny/g` | `7.2561` | `6.21 cny/g` or `25.78 usd/oz` |
+| `2024-05-30 21:15` | `Ag(T+D) 8267 cny/kg => 35.450 usd/oz`   | `XAGUSD 31.467 usd/oz => 7338 cny/kg`   | `7.2534` | `929 cny/kg` or `3.983 usd/oz` |
 
 >   Translate China silver price (in cny/kg unit) to USA `XAGUSD` price  (in usd/oz unit). Translate China gold price (in cny/g unit) to USA `XAUUSD` price (in usd/oz unit).
 
