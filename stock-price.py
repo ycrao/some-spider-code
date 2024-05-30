@@ -2,7 +2,7 @@
 import datetime
 
 import requests
-from helper import timestamp_str, time_to_str
+from helper import timestamp_str, time_to_str, get_query
 import demjson
 import web
 from decimal import Decimal
@@ -277,17 +277,6 @@ def fetch_xueqiu_stock(symbol):
     resp2 = requests.get(url2, headers=headers)
     bs_data = resp2.json()
     return format_xueqiu_stock_data(data, bs_data)
-
-
-def get_query(query_str):
-    query = query_str.replace('?', '')
-    query = query.split('&')
-    query_dict = {}
-    for item in query:
-        item = item.split('=')
-        if len(item) >= 2:
-            query_dict[item[0]] = item[1]
-    return query_dict
 
 
 class StockPrice:

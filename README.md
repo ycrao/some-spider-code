@@ -72,7 +72,7 @@ Symbol rule: `sh600519` （沪市） or `sz300750` （深市） .
 python stock-price.py 9502
 ```
 
-Open `http://127.0.0.1:9502/sz300750?source=sina` in browser. You can change `sz300750` (Chinese stock code) to another, and the value of source `sina` (`新浪`) to `tencent` (腾讯) or `xueqiu` (雪球) . 
+Open `http://127.0.0.1:9502/sz300750?source=sina` in browser. You can change `sz300750` (Chinese stock code) to another, and the value of source `sina` (新浪) to `tencent` (腾讯) or `xueqiu` (雪球) . 
 
 Response example:
 
@@ -120,3 +120,67 @@ Response example:
 >   *Notice*: `data.volume`,`data.buyX_volume` and `data.sellY_volume` are the number of hands （`手`, 1手=100股）; `data.amount` is the amount of money but in ten thousand yuan unit（`万元`）; others are in yuan unit（`元`）.
 
 
+### trans-price
+
+>   Translate China silver price (in cny/kg unit) to USA `XAGUSD` price  (in usd/oz unit). Translate China gold price (in cny/g unit) to USA `XAUUSD` price (in usd/oz unit).
+
+```bash
+# 9503 as port
+python trans-price.py 9503
+```
+
+Open these api urls to see response.
+
+```
+http://127.0.0.1:9503/trans-price/autd?price=551.64
+http://127.0.0.1:9503/trans-price/agtd?price=8508&fx_rate=7.2648
+http://127.0.0.1:9503/trans-price/xau?price=2332.68&fx_rate=7.2530
+http://127.0.0.1:9503/trans-price/xag?price=31.390
+```
+
+Response example:
+
+Gold price: `Au(T+D) 551.64 cny/g` ≈ `XAUUSD 2364.46 usd/oz` by forex rate `7.2566`.
+
+```json
+{
+    "code": 200,
+    "message": "ok",
+    "data": {
+        "symbol": "autd",
+        "original_price": 551.64,
+        "original_unit": "cny/g",
+        "fx_rate": 7.2566,
+        "fx_from": "招商银行(CMB)",
+        "fx_detail": {
+            "source": "cmb",
+            "name": "1美元兑人民币",
+            "symbol": "usd2cny",
+            "middle_price": null,
+            "price": 7.2566,
+            "datetime": "2024-05-30 18:01:14"
+        },
+        "target_price": 2364.46,
+        "target_unit": "usd/oz"
+    }
+}
+```
+
+Silver price: `Ag(T+D) 8508 cny/kg` ≈ `XAGUSD 36.426 usd/oz` by forex rate `7.2648`.
+
+```json
+{
+    "code": 200,
+    "message": "ok",
+    "data": {
+        "symbol": "agtd",
+        "original_price": 8508,
+        "original_unit": "cny/kg",
+        "fx_rate": 7.2648,
+        "fx_from": "用户输入(UserInput)",
+        "fx_detail": null,
+        "target_price": 36.426,
+        "target_unit": "usd/oz"
+    }
+}
+```

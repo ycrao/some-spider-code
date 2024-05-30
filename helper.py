@@ -40,3 +40,16 @@ def timestamp_str():
     """get timestamp
     """
     return str(int(datetime.datetime.now().timestamp() * 1000))
+
+
+def get_query(query_str):
+    """get url query params
+    """
+    query = query_str.replace('?', '')
+    query = query.split('&')
+    query_dict = {}
+    for item in query:
+        item = item.split('=')
+        if len(item) >= 2:
+            query_dict[item[0]] = item[1]
+    return query_dict
