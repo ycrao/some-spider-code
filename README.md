@@ -122,12 +122,14 @@ Response example:
 
 ### trans-price
 
->   [trans-price.py](./trans-price.py)：内外盘金银价格互转。当前上海金 `Au(T+D)/Ag(T+D)` 相对于国际金 `XAU/XAG` 均溢价不少，这个工具可以很方便快捷地进行转换。
+>   [trans-price.py](./trans-price.py)：内外盘金银价格互转。当前上海金银 `Au(T+D)/Ag(T+D)` 相对于国际金银 `XAU/XAG` 均溢价不少，这个工具可以很方便快捷地进行转换。
 
 | 时间                 | 国内金银                                     | 国际金银                                    | 汇率       | 溢价                             |
 |--------------------|------------------------------------------|-----------------------------------------|----------|--------------------------------|
 | `2024-05-30 21:00` | `Au(T+D) 552.39 cny/g => 2367.84 usd/oz` | `XAUUSD 2341.22 usd/oz => 546.18 cny/g` | `7.2561` | `6.21 cny/g` or `25.78 usd/oz` |
 | `2024-05-30 21:15` | `Ag(T+D) 8267 cny/kg => 35.450 usd/oz`   | `XAGUSD 31.467 usd/oz => 7338 cny/kg`   | `7.2534` | `929 cny/kg` or `3.983 usd/oz` |
+
+>   从上表可看到，国内白银相对于国际白银人民币计价溢超 900元每公斤，美元计价溢近 4美元每盎司。一些公开资料说中国央行最近2，3年一直在买入贵金属，且白银具有工业用途，国内新能源车、光伏等行业有大量需求，再加税，这些举措一起进一步推高国内外金银价差。
 
 >   Translate China silver price (in cny/kg unit) to USA `XAGUSD` price  (in usd/oz unit). Translate China gold price (in cny/g unit) to USA `XAUUSD` price (in usd/oz unit).
 
