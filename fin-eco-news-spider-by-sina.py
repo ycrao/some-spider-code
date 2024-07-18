@@ -1,6 +1,7 @@
+import json
+
 import requests
 from helper import random_number_str, timestamp_str
-import demjson
 from termcolor import colored, cprint
 import textwrap
 
@@ -46,7 +47,7 @@ def fetchNewestJsonpData(tag='0'):
     text = response.text
     text = text.replace('try{' + cb_str + '(', '')
     json_str = text.replace(');}catch(e){};', '')
-    json_data = demjson.decode(json_str)
+    json_data = json.loads(json_str)
     # print(json_data)
     return json_data
 

@@ -1,6 +1,4 @@
 import requests
-from helper import random_number_str, timestamp_str
-import demjson
 from termcolor import colored, cprint
 import textwrap
 

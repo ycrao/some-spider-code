@@ -1,12 +1,19 @@
 # -- coding: utf-8 --**
 import datetime
+import json
 
 import requests
 from helper import timestamp_str, time_to_str, get_query
-import demjson
 import web
 from decimal import Decimal
 from fake_useragent import UserAgent
+
+
+class DecimalEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, Decimal):
+            return str(obj)
+        return json.JSONEncoder.default(self, obj)
 
 
 # see: https://blog.csdn.net/qq1130169218/article/details/122087853
@@ -299,14 +306,14 @@ class StockPrice:
                 'message': 'ok',
                 'data': resp_data
             }
-            return demjson.encode(resp, sort_keys=False)
+            return json.dumps(resp, sort_keys=False, cls=DecimalEncoder)
         except IndexError:
             resp = {
                 'code': 500,
                 'message': 'something error, wrong stock code?',
                 'data': None
             }
-            return demjson.encode(resp, sort_keys=False)
+            return json.dumps(resp, sort_keys=False, cls=DecimalEncoder)
 
 
 if __name__ == "__main__":

@@ -1,7 +1,8 @@
 # -- coding: utf-8 --**
+import json
+
 import requests
 from helper import timestamp_str, write_csv
-import demjson
 import web
 from decimal import Decimal
 
@@ -13,10 +14,7 @@ def fetchFund(code):
     text = resp.text
     text = text.replace('jsonpgz(', '')
     text = text.replace(');', '')
-    try:
-        json_data = demjson.decode(text)
-    except demjson.JSONDecodeError:
-        json_data = None
+    json_data = json.loads(text)
     return json_data
 
 
@@ -28,7 +26,7 @@ def formatFund():
     text = resp.text
     text = text.replace('var r = ', '')
     text = text.replace(';', '')
-    json_data = demjson.decode(text)
+    json_data = json.loads(text)
     for item in json_data:
         result = {
             "code": item[0],
@@ -74,7 +72,7 @@ class FundValue:
             "message": resp_message,
             "data": resp_data,
         }
-        return demjson.encode(resp, sort_keys=False)
+        return json.dumps(resp, sort_keys=False)
 
 
 if __name__ == "__main__":

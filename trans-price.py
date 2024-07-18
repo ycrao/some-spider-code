@@ -1,11 +1,19 @@
 # -- coding: utf-8 --**
 import datetime
-import demjson
+import json
+
 import requests
 import web
 from helper import time_to_str, get_query
 from decimal import Decimal
 from fake_useragent import UserAgent
+
+
+class DecimalEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, Decimal):
+            return str(obj)
+        return json.JSONEncoder.default(self, obj)
 
 
 def fetch_cmb_forex(symbol):
@@ -202,8 +210,8 @@ class TransPrice:
                 "message": resp_message,
                 "data": resp_data,
             }
-            return demjson.encode(resp, sort_keys=False)
-        return demjson.encode({
+            return json.dumps(resp, sort_keys=False, cls=DecimalEncoder)
+        return json.dumps({
             'code': 400,
             'message': 'not supported!',
             'data': None

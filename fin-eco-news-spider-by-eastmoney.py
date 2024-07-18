@@ -1,6 +1,7 @@
+import json
+
 import requests
 from helper import random_number_str, timestamp_str
-import demjson
 from termcolor import colored, cprint
 import textwrap
 
@@ -37,7 +38,7 @@ def fetchNewestData():
     )
     text = response.text
     json_str = text.replace('var ajaxResult=', '')
-    json_data = demjson.decode(json_str)
+    json_data = json.loads(json_str)
     return json_data
 
 
