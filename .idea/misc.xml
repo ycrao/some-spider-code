@@ -3,4 +3,5 @@
   <component name="Black">
     <option name="sdkName" value="some-spider-code" />
   </component>
+  <component name="ProjectRootManager" version="2" project-jdk-name="some-spider-code" project-jdk-type="Python SDK" />
 </project>

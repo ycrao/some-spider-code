@@ -193,3 +193,24 @@ Silver price: `Ag(T+D) 8508 cny/kg` ≈ `XAGUSD 36.426 usd/oz` by forex rate `7.
     }
 }
 ```
+
+### deep-seek
+
+>   [ask-deep-seek-ai.py](./ask-deep-seek-ai.py)：通过 `api` 接口方式调用 `deep-seek` 。DeepSeek 官方最近遭受攻击，API 请求可能存在缓慢无响应等异常。建议使用硅基流动托管的 DeepSeek 服务，走下面链接注册，本人能收到硅基流动赠金 https://cloud.siliconflow.cn/i/c43wkWpu 。感谢支持！
+
+```bash
+source venv/bin/activate
+# update deps
+pip install -r requirements.txt
+# generate a new env config from example file
+cp -r .env.example .env
+# setting api-keys
+vim .env
+# change question then run code
+vim ask-deep-seek-ai.py
+python ask-deep-seek-ai.py
+# ollama 版本 
+# (前置条件已安装 ollama 软件，并下载安装好适合自身电脑的 deepseek-r1 模型）
+# 16G 内存配置电脑推荐安装 7B 版本即可，下载链接 https://ollama.com/library/deepseek-r1:7b
+python ask-deep-seek-ai-by-ollama.py
+```
