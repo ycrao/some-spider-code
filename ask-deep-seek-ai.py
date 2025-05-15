@@ -26,17 +26,43 @@ api_config = {
         # 8B 免费 deepseek-ai/DeepSeek-R1-Distill-Llama-8B
         'model': 'deepseek-ai/DeepSeek-R1-Distill-Llama-8B',
         # 'model': 'deepseek-ai/DeepSeek-R1-Distill-Llama-70B',
+    },
+    'ctyun_provider': {
+        'api_key': os.getenv('CTYUN_API_KEY', ''),
+        'base_url': 'https://wishub-x1.ctyun.cn/v1',
+        'model': '4bd107bff85941239e27b1509eccfe98'
+    },
+    "tencent_provider": {
+        'api_key': os.getenv('TENCENT_API_KEY', ''),
+        'base_url': 'https://api.lkeap.cloud.tencent.com/v1',
+        # deepseek-v3|deepseek-r1
+        'model': 'deepseek-r1'
     }
 }
-using_official = False
-if using_official:
-    client = OpenAI(api_key=api_config['official_provider']['api_key'],
-                    base_url=api_config['official_provider']['base_url'])
-    model = api_config['official_provider']['model']
-else:
-    client = OpenAI(api_key=api_config['silicon_flow_provider']['api_key'],
-                    base_url=api_config['silicon_flow_provider']['base_url'])
-    model = api_config['silicon_flow_provider']['model']
+
+ctyun_model_maps = {
+    '4bd107bff85941239e27b1509eccfe98': 'DeepSeek-R1-昇腾版',
+    '7ba7726dad4c4ea4ab7f39c7741aea68': 'DeepSeek-R1-英伟达版',
+    '9dc913a037774fc0b248376905c85da5': 'DeepSeek-V3-昇腾版',
+    '515fdba33cc84aa799bbd44b6e00660d': 'DeepSeek-R1-Distill-Llama-70B',
+    'b383c1eecf2c4b30b4bcca7f019cf90d': 'DeepSeek-R1-Distill-Qwen-32B',
+    '0855b510473e4ec3a029569853f64974': 'DeepSeek-V2-Lite-Chat',
+    'f23651e4a8904ea589a6372e0e860b10': 'DeepSeek-Coder-V2-Lite-Instruct'
+}
+provider_maps = {
+    1: 'official_provider',
+    2: 'silicon_flow_provider',
+    3: 'ctyun_provider',
+    4: 'tencent_provider',
+}
+# 根据序号切换不同 DeepSeek 供应商
+using_provider = 4
+provider_config = api_config[provider_maps[using_provider]]
+
+client = OpenAI(api_key=provider_config['api_key'],
+                base_url=provider_config['base_url'])
+model = provider_config['model']
+
 
 # Round 1
 messages = [
@@ -61,12 +87,18 @@ response = client.chat.completions.create(
     timeout=1200
 )
 
-reasoning_content = response.choices[0].message.reasoning_content
+reasoning_content = None
+if hasattr(response.choices[0].message, 'reasoning_content'):
+    reasoning_content = response.choices[0].message.reasoning_content
+
+
 content = response.choices[0].message.content
 
-print('<think>')
-print(reasoning_content)
-print('</think>')
+if reasoning_content:
+    print('<think>')
+    print(reasoning_content)
+    print('</think>')
+
 print('-----')
 print(content)
 
